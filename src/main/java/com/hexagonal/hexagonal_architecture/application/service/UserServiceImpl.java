@@ -44,14 +44,15 @@ public class UserServiceImpl implements UserServicePort {
 
 	@Override
 	public UserResponseDto update(UUID id, UserDto userDto) {
-		// TODO Auto-generated method stub
-		return null;
+		User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+		user.setName(userDto.name());
+		user.setEmail(userDto.email());
+		return toResponse(userRepository.save(user));
 	}
 
 	@Override
 	public void delete(UUID id) {
-		// TODO Auto-generated method stub
-		
+		userRepository.deleteById(id);
 	}
 	
 	private UserResponseDto toResponse(User user) {
